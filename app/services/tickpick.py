@@ -7,6 +7,7 @@ from urllib.parse import urljoin
 
 load_dotenv()
 
+
 @dataclass
 class TickpickScraper():
 	baseUrl: str = 'https://www.tickpick.com'
@@ -16,8 +17,8 @@ class TickpickScraper():
 
 	def send_req(self, url, params):
 		headers = {
-            'user-agent': self.userAgent,
-        }
+			'user-agent': self.userAgent,
+		}
 
 		with Client(headers=headers, follow_redirects=True) as client:
 			response = client.get(url, params=params)
@@ -53,14 +54,14 @@ class TickpickApi():
 		endpoint = ''
 		url = urljoin(self.baseUrl, endpoint)
 		
-		response = send_req(url)
+		response = self.send_req(url)
 		jsonData = response.json()
 		self.accessToken = jsonData['']['']
 
 	def send_req(self, url):
 		headers = {
-            'user-agent': self.user_agent,
-        }
+			'user-agent': self.user_agent
+		}
 
 		with Client(headers=headers) as client:
 			response = client.get(url)
@@ -68,25 +69,26 @@ class TickpickApi():
 
 		return url, response
 
-
 	def search_by_term(self, searchTerm):
 		endpoint = ''
-		url = url.urljoin(self.baseUrl, endpoint)
-		response = send_req(url)
+		url = urljoin(self.baseUrl, endpoint)
+		response = self.send_req(url)
 		
 		return response
 		
 
-
 if __name__ == '__main__':
+	# ================Define Object
 	# clientId = os.getenv('TICKPICK_CLIENT_ID')
 	# clientSecret = os.getenv('TICKPICK_CLIENT_SECRET')
 	api = TickpickScraper()
 
-	# authentication
+	# Authentication
 	# api.authenticate()
 
 	# search by term
 	searchTerm = 'ncaa-mens-basketball-tournament-east-regional-alabama-vs-byu--duke-vs-arizona-session-1'
 	response = api.search_by_term(searchTerm=searchTerm)
+
+	# detail ticket
 
