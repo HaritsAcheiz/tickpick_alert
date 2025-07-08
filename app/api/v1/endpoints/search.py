@@ -22,15 +22,15 @@ router = APIRouter(
     }
 )
 
-async def search_tickpick(search_term: str = Query(..., min_length=3, max_length=100, description="The term to search for on TickPick.")):
+async def search_tickpick(q: str = Query(..., min_length=3, max_length=100, description="The term to search for on TickPick.")):
     scraper = TickpickScraper()
 
     try:
-        results = scraper.search_by_term(searchTerm=search_term)
+        results = scraper.search_by_term(searchTerm=q)
 
         if not results:
-            return SearchResult(results=[], search_term=search_term, message="No results found for the given search term.")
-        return SearchResult(results=results, search_term=search_term)
+            return SearchResult(results=[], search_term=q, message="No results found for the given search term.")
+        return SearchResult(results=results, search_term=q)
     except Exception as e:
         print(f"Scraping error: {e}")
         raise HTTPException(

@@ -29,8 +29,11 @@ class TickpickScraper():
 	def parse(self, response):
 		tree = HTMLParser(response.text)
 		tickets = tree.css('div.py-5 > div:nth-of-type(1) > ul > li.mb-0')
+		result = list()
 		for ticket in tickets:
-			print(ticket.text(strip=True))
+			result.append(ticket.text(strip=True))
+
+		return result
 
 	def search_by_term(self, searchTerm):
 		endpoint = '/search'
@@ -40,7 +43,9 @@ class TickpickScraper():
 		}
 
 		response = self.send_req(url, params)
-		self.parse(response)
+		result = self.parse(response)
+
+		return result
 
 
 @dataclass
